@@ -31,10 +31,22 @@ enum Alert {
         }
     }
 }
-enum actionListWithCollectionView : String, CaseIterable{
-    case first = "Get anime"
-    case second = "пустое поле"
-    case third = "в разработке"
+enum actionListWithCollectionView : CaseIterable{
+    case first
+    case second
+    case third
+    
+    var animeList: String {
+        switch self {
+        case .first:
+            "Anime"
+        case .second:
+            "Persona"
+        case .third:
+            "Say"
+        }
+        
+    }
 }
 
 // MARK: - VC
@@ -42,16 +54,17 @@ final class CheckJsonViewController: UIViewController {
     
     // MARK: - IBOutlets
     @IBOutlet weak var connectIMage: UIImageView!
+    @IBOutlet weak var fromAnimeAPI: UICollectionView!
     
     // MARK: - Private properties
     private let collectionsLabels = actionListWithCollectionView.allCases
-    private let imageURL = URL(string: "https://cdn.pixabay.com/photo/2012/03/01/01/42/hands-20333_960_720.jpg")!
-    private let animeLink = URL(string: "https://animechan.xyz/api/random")!
-    
+    private let networkManager = NetworkManager.shared
+    private var animeTitles:[String] = ["", "", ""]
     // MARK: - overrides
     override func viewDidLoad() {
         super.viewDidLoad()
         connectIMage.isHidden = true
+        fromAnimeAPI.isHidden = true
     }
     
     // MARK: - IBActions
@@ -59,13 +72,19 @@ final class CheckJsonViewController: UIViewController {
         fetchImage()
     }
     
+    @IBAction func getWisdomButtonPressed(_ sender: UIButton) {
+        fetchRandomAnimeQuote()
+        fromAnimeAPI.isHidden = false
+    }
+    
     // MARK: - Private func's
     private func showAlert(with status: Alert) {
     let alert = UIAlertController(title: status.title, message: status.message, preferredStyle: .alert)
     let okAction = UIAlertAction(title: "Ok", style: .default)
     alert.addAction(okAction)
-    present(alert,animated: true)
+    present(alert, animated: true)
     }
+    
 }
 // MARK: - UICollectionViewDataSource
 extension CheckJsonViewController: UICollectionViewDataSource {
@@ -77,7 +96,9 @@ extension CheckJsonViewController: UICollectionViewDataSource {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as? UserCell else {
             return UICollectionViewCell()
         }
-        cell.UserCell.text = collectionsLabels[indexPath.item].rawValue
+        
+        cell.UserCell.text = animeTitles[indexPath.item]
+        collectionView.reloadData()
         return cell
     }
 }
@@ -88,57 +109,39 @@ extension CheckJsonViewController: UICollectionViewDelegate {
         layout collectionViewLayout: UICollectionViewLayout,
         sizeForItemAt indexPath: IndexPath
     ) -> CGSize {
-        CGSize(width: UIScreen.main.bounds.width - 48, height: 100)
+        CGSize(width: UIScreen.main.bounds.width - 5, height: 100)
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let tapToItem = collectionsLabels[indexPath.item]
-        
-        switch tapToItem {
-        case .first:
-          fetchRandomAnimeQuote()
-        case .second:
-        print("кнопка в разработке")
-        case .third:
-        print("кнопка в разработке")
-        }
+        isEditing = false
     }
 }
 
 // MARK: - Networking
 extension CheckJsonViewController {
     private func fetchImage() {
-        URLSession.shared.dataTask(with: imageURL) { data, _, error in
-            guard  let data = data else {
-                print(error?.localizedDescription ?? "Non error")
-                return
+        networkManager.fetchImage(from: networkManager.imageURL) {[unowned self] result in
+            switch result {
+            case .success(let data):
+                connectIMage.image = UIImage(data: data)
+                connectIMage.isHidden = false
+            case .failure(let error):
+                print(error)
             }
-            guard let imageConnect = UIImage(data: data) else { return }
-            DispatchQueue.main.async {
-                self.connectIMage.image = imageConnect
-                self.connectIMage.isHidden = false
-            }
-        }.resume()
+        }
     }
     
     private func fetchRandomAnimeQuote() {
-        URLSession.shared.dataTask(with: animeLink) { data, _, error in
-            guard  let data = data else {
-                print(error?.localizedDescription ?? " Oh no!")
-                return
+        networkManager.fetchRandomAnimeQuote(from: networkManager.animeLink) {[unowned self] result in
+            switch result {
+            case .success(let anime):
+                animeTitles = [anime.anime, anime.character, anime.quote]
+                print(anime)
+                showAlert(with: .success)
+            case .failure(let error):
+                showAlert(with: .failed)
+                print(error)
             }
-            do {
-                let randomAnime = try JSONDecoder().decode(Anime.self, from: data)
-                print(randomAnime)
-                DispatchQueue.main.async {
-                    self.showAlert(with: .success)
-                }
-            } catch let error {
-                DispatchQueue.main.async {
-                    self.showAlert(with: .failed)
-                }
-                print(error.localizedDescription)
-            }
-        }.resume()
+        }
     }
 }

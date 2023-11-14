@@ -17,22 +17,6 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1zK-ER-XQG">
-                                <rect key="frame" x="39" y="612" width="297" height="35"/>
-                                <color key="backgroundColor" red="1" green="0.0" blue="0.01666666667" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="plain" title="Check connection">
-                                    <color key="baseForegroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                </buttonConfiguration>
-                                <userDefinedRuntimeAttributes>
-                                    <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
-                                        <integer key="value" value="15"/>
-                                    </userDefinedRuntimeAttribute>
-                                </userDefinedRuntimeAttributes>
-                                <connections>
-                                    <action selector="checkButtonPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="m1H-v3-dw8"/>
-                                </connections>
-                            </button>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="q8v-eE-BCt">
                                 <rect key="frame" x="39" y="492" width="297" height="100"/>
                             </imageView>
@@ -55,7 +39,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SOj-qT-sFy">
-                                                    <rect key="frame" x="149" y="39.5" width="42" height="21"/>
+                                                    <rect key="frame" x="149.5" y="40" width="41.5" height="20.5"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
@@ -82,25 +66,64 @@
                                     <outlet property="delegate" destination="BYZ-38-t0r" id="HgA-Pq-fCh"/>
                                 </connections>
                             </collectionView>
+                            <stackView opaque="NO" contentMode="scaleToFill" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="pAY-Sk-EJt" userLabel="ButtonView">
+                                <rect key="frame" x="8" y="612" width="359" height="47"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1zK-ER-XQG">
+                                        <rect key="frame" x="0.0" y="0.0" width="177" height="47"/>
+                                        <color key="backgroundColor" red="1" green="0.0" blue="0.01666666667" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <state key="normal" title="Button"/>
+                                        <buttonConfiguration key="configuration" style="plain" title="Check connection">
+                                            <color key="baseForegroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        </buttonConfiguration>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                                <integer key="value" value="15"/>
+                                            </userDefinedRuntimeAttribute>
+                                        </userDefinedRuntimeAttributes>
+                                        <connections>
+                                            <action selector="checkButtonPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="m1H-v3-dw8"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hJN-oF-VCq">
+                                        <rect key="frame" x="182" y="0.0" width="177" height="47"/>
+                                        <color key="backgroundColor" red="1" green="0.0" blue="0.01666666667" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <state key="normal" title="Button"/>
+                                        <buttonConfiguration key="configuration" style="plain" title="Receive a wise thought">
+                                            <color key="baseForegroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        </buttonConfiguration>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                                <integer key="value" value="15"/>
+                                            </userDefinedRuntimeAttribute>
+                                        </userDefinedRuntimeAttributes>
+                                        <connections>
+                                            <action selector="getWisdomButtonPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="wEN-NW-Sqo"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                            </stackView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="pAY-Sk-EJt" secondAttribute="bottom" constant="8" id="4DQ-I7-0mb"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="q8v-eE-BCt" secondAttribute="trailing" constant="39" id="9GS-yF-7mg"/>
                             <constraint firstItem="q8v-eE-BCt" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="39" id="FaI-A4-wpI"/>
-                            <constraint firstItem="1zK-ER-XQG" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="39" id="L35-4p-mSS"/>
                             <constraint firstItem="Djn-uO-laJ" firstAttribute="height" secondItem="8bC-Xf-vdC" secondAttribute="height" multiplier="0.7" id="PzM-UX-8on"/>
-                            <constraint firstItem="1zK-ER-XQG" firstAttribute="top" secondItem="q8v-eE-BCt" secondAttribute="bottom" constant="20" id="ReM-4X-1gg"/>
+                            <constraint firstItem="q8v-eE-BCt" firstAttribute="top" secondItem="Djn-uO-laJ" secondAttribute="bottom" constant="25" id="RYl-sO-84d"/>
                             <constraint firstItem="q8v-eE-BCt" firstAttribute="height" secondItem="8bC-Xf-vdC" secondAttribute="height" multiplier="0.15" id="UiD-x0-MJ6"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="1zK-ER-XQG" secondAttribute="trailing" constant="39" id="V6G-Db-8vh"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="1zK-ER-XQG" secondAttribute="bottom" constant="20" id="Xfa-OP-6ez"/>
+                            <constraint firstAttribute="trailing" secondItem="pAY-Sk-EJt" secondAttribute="trailing" constant="8" id="XWV-Tv-rZ1"/>
                             <constraint firstItem="Djn-uO-laJ" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="cL7-fT-Hfk"/>
+                            <constraint firstItem="pAY-Sk-EJt" firstAttribute="top" secondItem="q8v-eE-BCt" secondAttribute="bottom" constant="20" id="fFw-dj-6Xi"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="Djn-uO-laJ" secondAttribute="trailing" id="hpP-0f-gHf"/>
                             <constraint firstItem="Djn-uO-laJ" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="ptV-aM-wSF"/>
+                            <constraint firstItem="pAY-Sk-EJt" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="8" id="zpU-gc-ZSc"/>
                         </constraints>
                     </view>
                     <connections>
                         <outlet property="connectIMage" destination="q8v-eE-BCt" id="JnX-Nq-wbp"/>
+                        <outlet property="fromAnimeAPI" destination="Djn-uO-laJ" id="r15-hM-BBE"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
