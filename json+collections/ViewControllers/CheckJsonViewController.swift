@@ -31,24 +31,6 @@ enum Alert {
         }
     }
 }
-enum actionListWithCollectionView : CaseIterable{
-    case first
-    case second
-    case third
-    
-    var animeList: String {
-        switch self {
-        case .first:
-            "Anime"
-        case .second:
-            "Persona"
-        case .third:
-            "Say"
-        }
-        
-    }
-}
-
 // MARK: - VC
 final class CheckJsonViewController: UIViewController {
     
@@ -57,16 +39,9 @@ final class CheckJsonViewController: UIViewController {
     @IBOutlet weak var fromAnimeAPI: UICollectionView!
     
     // MARK: - Private properties
-    private let collectionsLabels = actionListWithCollectionView.allCases
     private let networkManager = NetworkManager.shared
     private var animeTitles:[String] = ["", "", ""]
-    // MARK: - overrides
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        connectIMage.isHidden = true
-        fromAnimeAPI.isHidden = true
-    }
-    
+
     // MARK: - IBActions
     @IBAction func checkButtonPressed(_ sender: UIButton) {
         fetchImage()
@@ -89,7 +64,7 @@ final class CheckJsonViewController: UIViewController {
 // MARK: - UICollectionViewDataSource
 extension CheckJsonViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        collectionsLabels.count
+        animeTitles.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
